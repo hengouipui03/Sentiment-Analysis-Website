@@ -1,0 +1,236 @@
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: #f4f6f8;
+  color: #333;
+  line-height: 1.6;
+  padding-bottom: 60px; /* For footer */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Header */
+header {
+  background-color: #2C3E50;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+header h1 {
+  font-size: 2em;
+}
+
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.container h2 {
+  color: #2C3E50;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #4a90e2;
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #2C3E50;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border 0.3s ease;
+}
+
+input[type="text"]:focus, textarea:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+input[type="file"] {
+  margin-top: 8px;
+}
+
+/* Buttons */
+.btn {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #357ABD;
+}
+
+/* Divider */
+.divider {
+  text-align: center;
+  margin: 25px 0;
+  position: relative;
+}
+
+.divider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #ddd;
+  z-index: 1;
+}
+
+.divider span {
+  background: white;
+  position: relative;
+  padding: 0 15px;
+  z-index: 2;
+  color: #7f8c8d;
+}
+
+/* Sentiment Score Text Styles -pos(+): green, -neg(-): red */
+    .positive {
+      color: #2ecc71;
+      font-weight: bold;
+    }
+    
+    .negative {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+    
+    .neutral {
+      color: #7f8c8d;
+    }
+    
+    .sentence-list {
+      list-style-type: none;
+      margin: 15px 0;
+    }
+    
+    .sentence-list li {
+      padding: 10px;
+      margin-bottom: 8px;
+      border-left: 4px solid #ddd;
+      background-color: #f9f9f9;
+      transition: all 0.3s ease;
+    }
+    
+    .sentence-list li:hover {
+      background-color: #edf2f7;
+      border-left-color: #4a90e2;
+    }
+    
+    .highlight-box {
+      background-color: #ecebe8;
+      border: 1px solid #7c7b79;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    
+    .file-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 10px 0;
+      white-space: pre-wrap;
+      font-family: monospace;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+/* File Preview */
+.file-preview {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 15px 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.file-preview h4 {
+  margin-bottom: 10px;
+  color: #2C3E50;
+}
+
+.file-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.file-item:last-child {
+  border-bottom: none;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 30px;
+  background: #2C3E50;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .container {
+    padding: 15px;
+    margin: 15px;
+  }
+
+  input[type="text"], textarea {
+    font-size: 14px;
+  }
+}

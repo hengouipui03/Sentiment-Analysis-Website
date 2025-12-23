@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sentiment Analysis Results</title>
+</head>
+<body>
+  <header>
+    <link rel="stylesheet" href="../static/styles.css">
+    <h1>Sentilytics</h1>
+    <p>Your Reviews, Decoded</p>
+  </header>
+  
+  <div class="container">
+    <h1>Sentiment Analysis Results</h1>
+    
+    <!-- Text Input(by user) Section -->
+    {% if txt %}
+      <div class="highlight-box">
+        <h2>Text Input Analysis</h2>
+        <p><strong>Original Text:</strong></p>
+        <div class="file-content">{{ txt }}</div>
+      </div>
+
+    {% elif fileTxt %}
+      <div class="highlight-box">
+        <h2>Text Input Analysis</h2>
+        <p><strong>Original Text:</strong></p>
+        <div class="file-content">{{ fileTxt }}</div>
+      </div>
+    {% endif %}
+    
+    {% if results %}
+      <h2>Sentiment Analysis</h2>
+      
+      <h3>Sentences with Scores:</h3>
+      <ul class="sentence-list">
+      {% for sentence, score in results.all_sentences %}
+      <!-- check with team if we want to display sentence with 0 score -->
+        {% if score != 0 %}
+          <li>
+            "{{ sentence }}" - 
+            <span class="{% if score > 0 %}positive{% elif score < 0 %}negative{% else %}neutral{% endif %}">
+              Score: {{ score }}
+            </span>
+          </li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+      <!----Most pos(+) sentence---->
+      <div class="highlight-box">
+        <h3>Most Positive Sentence:</h3>
+        <p>"{{ results.most_positive_sentence[0] }}" - 
+          <span class="positive">Score: {{results.most_positive_sentence[1]}}</span>
+        </p>
+      </div>
+      <!----Most neg(+) sentence---->
+      <div class="highlight-box">
+        <h3>Most Negative Sentence:</h3>
+        <p>"{{ results.most_negative_sentence[0] }}" - 
+          <span class="negative">Score: {{ results.most_negative_sentence[1] }}</span>
+        </p>
+      </div>
+      
+      {% if results.most_positive_window %}
+      <div class="highlight-box">
+        <h3>Region of 3 sentences with the most positive combined score:</h3>
+        <p><strong>Total Score: <span class="positive">{{ results.most_positive_window[1] }}</span></strong></p>
+        <ul class="sentence-list">
+          {% for sentence, score in results.most_positive_window[0] %}
+          <li>
+            "{{ sentence }}" - 
+            <span class="{% if score > 0 %}positive{% elif score < 0 %}negative{% else %}neutral{% endif %}">
+              Score: {{ score }}
+            </span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      
+      {% if results.most_negative_window %}
+      <div class="highlight-box">
+        <h3>Region of 3 sentences with the most negative combined score:</h3>
+        <p><strong>Total Score: <span class="negative">{{ results.most_negative_window[1] }}</span></strong></p>
+        <ul class="sentence-list">
+          {% for sentence, score in results.most_negative_window[0] %}
+          <li>
+            "{{ sentence }}" - 
+            <span class="{% if score > 0 %}positive{% elif score < 0 %}negative{% else %}neutral{% endif %}">
+              Score: {{ score }}
+            </span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      
+            {% if results.most_positive_segment %}
+      <div class="highlight-box">
+          {% if results.most_positive_segment[0] %}
+              <h3>Most Positive Segment ({{ results.most_positive_segment[0]|length }} sentences):</h3>
+              <p><strong>Total Score:
+                  <span class="positive">{{ "%.1f"|format(results.most_positive_segment[1]) }}</span>
+              </strong></p>
+              <ul class="sentence-list">
+                  {% for sentence, score in results.most_positive_segment[0] %}
+                  <li>
+                      "{{ sentence }}" -
+                      <span class="{% if score > 0 %}positive{% elif score < 0 %}negative{% else %}neutral{% endif %}">
+                          Score: {{ "%.1f"|format(score) }}
+                      </span>
+                  </li>
+                  {% endfor %}
+              </ul>
+          {% else %}
+              <p class="neutral"><em>No positive sentences found in the segment.</em></p>
+          {% endif %}
+      </div>
+      {% endif %}
+
+      {% if results.most_negative_segment %}
+      <div class="highlight-box">
+          {% if results.most_negative_segment[0] %}
+              <h3>Most Negative Segment ({{ results.most_negative_segment[0]|length }} sentences):</h3>
+              <p><strong>Total Score:
+                  <span class="negative">{{ "%.1f"|format(results.most_negative_segment[1]) }}</span>
+              </strong></p>
+              <ul class="sentence-list">
+                  {% for sentence, score in results.most_negative_segment[0] %}
+                  <li>
+                      "{{ sentence }}" -
+                      <span class="{% if score > 0 %}positive{% elif score < 0 %}negative{% else %}neutral{% endif %}">
+                          Score: {{ "%.1f"|format(score) }}
+                      </span>
+                  </li>
+                  {% endfor %}
+              </ul>
+          {% else %}
+              <p class="neutral"><em>No negative sentences found in the segment.</em></p>
+          {% endif %}
+      </div>
+      {% endif %}
+
+
+      {% if results.all_sentences %}
+      <div class="highlight-box">
+          <h3>Overall Sentiment Analysis:</h3>
+          {% set total_score = results.all_sentences | sum(attribute='1') %}
+          <p><strong>Total Score for Entire Review: 
+              <span class="{% if total_score > 0 %}positive{% elif total_score < 0 %}negative{% else %}neutral{% endif %}">
+                  {{ "%.1f"|format(total_score) }}
+              </span>
+          </strong></p>
+          <p><strong>Total Sentences Analyzed:</strong> {{ results.all_sentences|length }}</p>
+          <p><strong>Average Score per Sentence:</strong> 
+              <span class="{% if total_score/results.all_sentences|length > 0 %}positive{% elif total_score/results.all_sentences|length < 0 %}negative{% else %}neutral{% endif %}">
+                  {{ "%.2f"|format(total_score / (results.all_sentences|length)) }}
+              </span>
+          </p>
+      </div>
+      {% endif %}
+
+    {% else %}
+      <p>No sentiment results to display.</p>
+    {% endif %}
+    
+    <!----Preview Files Uploaded by user---->
+    {% if folderList %}
+    <h2>Uploaded Files</h2>
+    <ul>
+      {% for name, text in folderList.items() %}
+      <div class="container">
+        <li> 
+          <strong>File: {{ name }}</strong>
+          <div class="file-content">{{ text }}</div>
+        </li>
+      </div>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No files were uploaded.</p>
+  {% endif %}
+  
+  <a href="/" class="btn">Back to Input</a>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 P7-1 INF1002. All rights reserved.</p>
+  </footer>
+</body>
+</html>

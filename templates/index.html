@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sentilytics - Sentiment Analysis</title>
+</head>
+<body>
+  <header>
+    <link rel="stylesheet" href="../static/styles.css">
+    <h1>Sentilytics</h1>
+    <p>Your Reviews, Decoded</p>
+  </header>
+
+  <!-- <nav>
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Projects</a>
+    <a href="#">Contact</a>
+  </nav> -->
+
+
+  <div class="container">
+    <h2>Insert your Movie Reviews:</h2>
+    <p>Enter text or upload text files for sentiment analysis</p>
+    
+    <form action="/review" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="text-input">Enter your movie review:</label>
+        <textarea id="text-input" name="txt" rows="6" placeholder="Please type or paste your movie review here..."></textarea>
+      </div>
+
+      <div class="divider">
+        <span>OR</span>
+      </div>
+            
+      <div class="form-group">
+        <label for="folder">Upload text file for analysis:</label>
+        <input type="file" id="folder" name="filetxt" accept=".txt">
+        <p><small>Please Note: Only .txt files are accepted. You may select multiple files.</small></p>
+      </div>
+      
+      <!-- <div class="divider">
+        <span>OR</span>
+      </div>
+      
+      
+      <div class="form-group">
+        <label for="folder">Upload folder of text files for analysis:</label>
+        <input type="file" id="folder" name="folder" webkitdirectory multiple accept=".txt" onchange="handleInput(this, 'textbox2')">
+        <p><small>Please Note: Only .txt files are accepted. You may select multiple files.</small></p>
+      </div> -->
+      
+      <input class="btn" type="submit" name="action" value="Analyze Sentiment">
+      <input class="btn" type="submit" name="action" value="Remove Space">
+    </form>
+    
+    <div id="file-preview" class="file-preview" style="display: none;">
+      <h4>Selected Files Preview:</h4>
+      <div id="file-list"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Sentilytics - Advanced Sentiment Analysis</p>
+  </footer>
+  <ul id="listing"></ul>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <script>
+    const textInput = document.getElementById('text-input');
+    const fileInput = document.getElementById('folder');
+    const filePreview = document.getElementById('file-preview');
+    const fileList = document.getElementById('file-list');
+    const form = document.querySelector('form'); 
+
+    // Changed text input by user
+    textInput.addEventListener('input', () => {
+      fileInput.disabled = textInput.value.trim() !== '';
+      if (textInput.value.trim() !== '') {
+        filePreview.style.display = 'none';
+      }
+    });
+
+    // Track which submit button was clicked
+  form.addEventListener('click', (e) => {
+    if (e.target.type === 'submit') {
+      lastClicked = e.target.value;
+    }
+  });
+
+  // Modify text area before submitting if "Remove Space" button is clicked
+  form.addEventListener('submit', (e) => {
+    if (lastClicked === 'Remove Space') {
+      textInput.value = textInput.value.replace(/\s+/g, '');
+      fileInput.value = fileInput.value.replace(/\s+/g, '');
+    }
+  });
+
+  </script>
+
+</body>
+</html>
