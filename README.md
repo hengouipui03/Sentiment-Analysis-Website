@@ -1,5 +1,4 @@
 # Sentilytics
-Group Name: Soh Wen Jie (2503504), Poh Yang Jie Michael (2500624), Reyner Lim Yi Ke (2500611), Soh Jia Hui (2502218), Ong Heng Hui (2501061)
 
 Instruction:
 --------------------------
